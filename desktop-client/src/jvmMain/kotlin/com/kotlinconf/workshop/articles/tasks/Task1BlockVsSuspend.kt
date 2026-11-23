@@ -10,12 +10,20 @@ import com.kotlinconf.workshop.blog.ArticleInfo
 
 // This function is invoked when you select the "BLOCKING" option in the UI.
 fun loadArticles(serviceBlocking: BlogServiceBlocking): List<Article> {
-    TODO()
+    val articleInfo = serviceBlocking.getArticleInfoList()
+    return articleInfo.map {
+        val comments = serviceBlocking.getComments(it)
+        Article(info = it, comments = comments)
+    }
 }
 
 // This function is invoked when you select the "SUSPENDING" option in the UI.
 suspend fun loadArticles(service: BlogService): List<Article> {
-    TODO()
+    val articleInfo = service.getArticleInfoList()
+    return articleInfo.map {
+        val comments = service.getComments(it)
+        Article(info = it, comments = comments)
+    }
 }
 
 fun main0() {
